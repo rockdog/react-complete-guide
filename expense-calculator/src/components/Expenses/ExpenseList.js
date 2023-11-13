@@ -5,16 +5,19 @@ import ExpensesFilter from "./ExpensesFilter";
 import './ExpenseList.css';
 
 const ExpenseList = props => {
-    const [selectedYear, setSelectedYear] = useState('2020');
+    const today = new Date();
+    const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
     const filterChangedHandler = selectedYear => {
-        console.log(selectedYear);
-        setSelectedYear(selectedYear);
+        setSelectedYear(parseInt(selectedYear, 10));
     };
+
+    const sortedExpenses = props.expenses.filter(expense => expense.date.getFullYear() === selectedYear).sort((a, b) => a.date - b.date)
+
     return (
         <Card className='expenses'>
-            <ExpensesFilter selectedYear={selectedYear} onFilterChanged={filterChangedHandler} />
-            {props.expenses.map(expense => <ExpenseItem key={expense.id} expense={expense} />)}
+            <ExpensesFilter expenses={props.expenses} selectedYear={selectedYear} onFilterChanged={filterChangedHandler} />
+            {sortedExpenses.map(expense => <ExpenseItem key={expense.id} expense={expense} />)}
         </Card>
     );
 }
