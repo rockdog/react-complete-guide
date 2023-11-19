@@ -1,10 +1,12 @@
 import React from 'react';
 
-const Button = (props) => {
-    let className = props.active ? 'active' : '';
-
+const Button = ({children, ...attributes}) => {
     return (
-        <li><button className={className} onClick={props.onClick}>{props.children}</button></li>
+        <li>
+            <button {...attributes}>
+                {children}
+            </button>
+        </li>
     );
 };
 

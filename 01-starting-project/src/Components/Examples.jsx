@@ -1,31 +1,55 @@
 import React, { useState } from 'react';
 import Button from './Button.jsx';
+import Section from './Section.jsx';
+import Tabs from './Tabs.jsx';
+import { EXAMPLES } from '../data.js';
 
 const Examples = () => {
-    const [exampleHeader, setExampleHeader] = useState('Components');
-    const [exampleCode, setExampleCode] = useState('Components Code');
-    const [activeButton, setActiveButton] = useState('Components');
+    const [selectedTopic, setSelectedTopic] = useState('components');
 
-    const buttonClickHandler = (header, code) => {
-        setExampleHeader(header);
-        setExampleCode(code);
-        setActiveButton(header);
+    const buttonClickHandler = (topic) => {
+        setSelectedTopic(topic);
     };
 
     return (
-        <section id='examples'>
-            <h2>Examples</h2>
-            <menu>
-                <Button active={activeButton === 'Components'} onClick={() => buttonClickHandler('Components', 'Components Code')}>Components</Button>
-                <Button active={activeButton === 'JSX'} onClick={() => buttonClickHandler('JSX', 'JSX Code')}>JSX</Button>
-                <Button active={activeButton === 'Props'} onClick={() => buttonClickHandler('Props', 'Props Code')}>Props</Button>
-                <Button active={activeButton === 'State'} onClick={() => buttonClickHandler('State', 'State Code')}>State</Button>
-            </menu>
-            <div id='tab-content'>
-                <h3>{exampleHeader}</h3>
-                <code>{exampleCode}</code>
-            </div>
-        </section>
+        <Section id='examples' title='Examples'>
+            <Tabs tabs={
+                <>
+                    <Button
+                        className={selectedTopic === 'components' ? 'active' : ''}
+                        onClick={() => buttonClickHandler('components')}
+                    >
+                        Components
+                    </Button>
+                    <Button
+                        className={selectedTopic === 'jsx' ? 'active' : ''}
+                        onClick={() => buttonClickHandler('jsx')}
+                    >
+                        JSX
+                    </Button>
+                    <Button
+                        className={selectedTopic === 'props' ? 'active' : ''}
+                        onClick={() => buttonClickHandler('props')}
+                    >
+                        Props
+                    </Button>
+                    <Button
+                        className={selectedTopic === 'state' ? 'active' : ''}
+                        onClick={() => buttonClickHandler('state')}
+                    >
+                        State
+                    </Button>
+                </>
+            }>
+                <div id='tab-content'>
+                    <h3>{EXAMPLES[selectedTopic].title}</h3>
+                    <p>{EXAMPLES[selectedTopic].description}</p>
+                    <pre>
+                        <code>{EXAMPLES[selectedTopic].code}</code>
+                    </pre>
+                </div>
+            </Tabs>
+        </Section>
     );
 };
 
